@@ -1,10 +1,10 @@
-package main
+package pkg
 
 import (
 	"strings"
 )
 
-type any = interface {}
+type any = interface{}
 
 type proto_pkg struct {
 	id        uint
@@ -55,10 +55,6 @@ func split(buf string) [2]string {
 	index := strings.Index(buf, proto_endl)
 	s1 := buf[0:index]
 	s2 := buf[index+len(proto_endl) : len(buf)-len(buf_endl)-2]
-	println("*****************")
-	println(s1)
-	println(s2)
-	println("*****************")
 	message := [2]string{s1, s2}
 	return message
 }
@@ -78,7 +74,7 @@ func getData(buf string) []any {
 	// 相当于while
 	for {
 		next_init := init + 1
-		next := indexOf(buf, size[next_init],start)
+		next := indexOf(buf, size[next_init], start)
 		if next == -1 {
 			// 是否分割完
 			if start+len(size[init]) == len(buf) {
@@ -106,7 +102,7 @@ func getData(buf string) []any {
 				ret = append(ret, args)
 				start = end + 3
 			} else {
-				println(start," --- ",next," --- ", len(buf))
+				println(start, " --- ", next, " --- ", len(buf))
 				arg := buf[start+3 : next]
 				println(arg)
 				ret = append(ret, arg)

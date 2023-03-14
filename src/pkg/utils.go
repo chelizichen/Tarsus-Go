@@ -1,10 +1,10 @@
-package main
+package pkg
 
 import "strings"
 
-func indexOf(data string,find string,index int)int{
+func indexOf(data string, find string, index int) int {
 	if index == 0 {
-		curr_index := strings.Index(data,find)
+		curr_index := strings.Index(data, find)
 		return curr_index
 	}
 	next_split := data[index:len(data)]
