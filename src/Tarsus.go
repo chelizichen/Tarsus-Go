@@ -5,7 +5,7 @@ import (
 	"net"
 )
 
-func Tarsus()  {
+func Tarsus() {
 	// 创建监听套接字
 	listenSocket, err := net.Listen("tcp", ":3786")
 	if err != nil {
