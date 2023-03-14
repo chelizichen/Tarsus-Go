@@ -4,6 +4,8 @@ import (
 	"strings"
 )
 
+type any = interface {}
+
 type proto_pkg struct {
 	id        uint
 	interFace string
@@ -46,12 +48,17 @@ func unPackage(buf string) proto_pkg {
 	pkg.method = getProto(proto[0], 2)
 
 	pkg.data = getData(proto[1])
+
 	return pkg
 }
 func split(buf string) [2]string {
 	index := strings.Index(buf, proto_endl)
 	s1 := buf[0:index]
-	s2 := buf[index+len(proto_endl) : len(buf)-len(buf_endl)-1]
+	s2 := buf[index+len(proto_endl) : len(buf)-len(buf_endl)-2]
+	println("*****************")
+	println(s1)
+	println(s2)
+	println("*****************")
 	message := [2]string{s1, s2}
 	return message
 }
@@ -86,7 +93,6 @@ func getData(buf string) []any {
 				ret = append(ret, args)
 			} else {
 				arg := buf[start+3 : len(buf)-3]
-				println(arg)
 				ret = append(ret, arg)
 			}
 			break
@@ -96,8 +102,6 @@ func getData(buf string) []any {
 				curr_end_str := size[len(size)-1] + size[init+1]
 				end := strings.Index(buf, curr_end_str)
 				un_pkg := buf[start+3 : end+3]
-				println("走了这一步")
-				println("ub_pkg",un_pkg)
 				args := getData(un_pkg)
 				ret = append(ret, args)
 				start = end + 3

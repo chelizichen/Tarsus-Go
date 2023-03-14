@@ -41,7 +41,6 @@ func handleClientRequest(conn net.Conn) {
 			fmt.Println("Read error:", err)
 			return
 		}
-
 		// 将客户端发送过来的数据打印进行处理
 		s := string(buf[0:n])
 		pkg := unPackage(s)

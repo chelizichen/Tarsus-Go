@@ -10,7 +10,7 @@ func indexOf(data string,find string,index int)int{
 	next_split := data[index:len(data)]
 	curr_index := strings.Index(next_split, find)
 	if curr_index == -1 {
-		return len(data)
+		return -1
 	}
 	return curr_index + index
 }
