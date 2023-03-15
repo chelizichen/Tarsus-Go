@@ -17,6 +17,8 @@ type Hello struct {
 	tarsus          pkg.TarsusRegister
 }
 
+type any = interface {}
+
 func (h *Hello) Notify(args ...any) any {
 	println("--Notify--")
 	println("name", args)
@@ -35,5 +37,6 @@ func (h *Hello) Say(args ...any) any {
 func (h *Hello) InitRegister() {
 	h.tarsus.Register("Notify", h.Notify)
 	h.tarsus.Register("Say", h.Say)
+	//h.tarsus.TarsusInvoke.
 	h.tarsus.TarsusInit("Hello Register")
 }

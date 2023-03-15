@@ -8,5 +8,5 @@ func LoadRegister() {
 	f.InitRegister()
 
 	map1 := h.tarsus.GetRegisterMap()
-	println(map1)
+	//h.tarsus.Call()
 }

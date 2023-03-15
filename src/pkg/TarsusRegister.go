@@ -8,7 +8,7 @@ type TarsusInvoke interface {
 	//beforeInvoke(args []string)
 
 	// 调用
-	invoke(methodName string, args any) any
+	Call(methodName string, args any) any
 
 	// 初始化注册
 	InitRegister()
@@ -27,6 +27,7 @@ type TarsusRegister struct {
 	// 注冊接口名
 	register  string
 	canInvoke bool
+	TarsusInvoke
 }
 
 func (t *TarsusRegister) TarsusInit(registerName string) {
@@ -38,7 +39,7 @@ func (t *TarsusRegister) Register(methodName string, method func(args ...any) an
 	registerMap[methodName] = method
 }
 
-func (t *TarsusRegister) invoke(methodName string, args ...any) any {
+func (t *TarsusRegister) Call(methodName string, args ...any) any {
 	return registerMap[methodName](args)
 }
 
