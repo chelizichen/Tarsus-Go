@@ -4,20 +4,36 @@ import (
 	"tarsus/go/src/pkg"
 )
 
+type HelloMethods interface {
+	Notify()
+	Say()
+}
+
 type Hello struct {
 	message string
 	name    string
-	tarsus  pkg.TarsusRegister
+	// 结构体继承 当前 Methods的所有方法 加上 注册结构体
+	RegisterMethods HelloMethods
+	tarsus          pkg.TarsusRegister
 }
 
-func (u *Hello) Notify() {
-	println(u.name, u.message)
+func (h *Hello) Notify(args ...any) any {
+	println("--Notify--")
+	println("name", args)
+	//println(h.name, h.message)
+	println("**********")
+	return ""
 }
 
-func init() {
-	user := new(Hello)
-	user.message = "134@qq.com"
-	user.name = "你好"
-	user.tarsus.TarsusInit("測試Hello 接口")
-	println("測試初始化")
+func (h *Hello) Say(args ...any) any {
+	println("--Hello--")
+	println(h.name, h.message)
+	println("**********")
+	return ""
+}
+
+func (h *Hello) InitRegister() {
+	h.tarsus.Register("Notify", h.Notify)
+	h.tarsus.Register("Say", h.Say)
+	h.tarsus.TarsusInit("Hello Register")
 }
