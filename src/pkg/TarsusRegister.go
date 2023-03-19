@@ -1,7 +1,7 @@
 package pkg
 
 // 新增注册表方法Map
-var registerMap = make(map[string]func(args ...any) any)
+var registerMap = make(map[string]func(args []any) any)
 
 type TarsusInvoke interface {
 	// 	在调用前处理
@@ -17,10 +17,10 @@ type TarsusInvoke interface {
 	TarsusInit(registerName string)
 
 	// 注册 map
-	Register(methodName string, method func(args ...any))
+	Register(methodName string, method func(args []any))
 
 	// 拿到方法表
-	GetRegisterMap() map[string]func(args ...any) any
+	GetRegisterMap() map[string]func(args []any) any
 }
 
 type TarsusRegister struct {
@@ -35,15 +35,15 @@ func (t *TarsusRegister) TarsusInit(registerName string) {
 	println("Tarsus 服務初始化 |", t.register, "| 已加载")
 }
 
-func (t *TarsusRegister) Register(methodName string, method func(args ...any) any) {
+func (t *TarsusRegister) Register(methodName string, method func(args []any) any) {
 	registerMap[methodName] = method
 }
 
-func (t *TarsusRegister) Call(methodName string, args ...any) any {
+func (t *TarsusRegister) Call(methodName string, args []any) any {
 	return registerMap[methodName](args)
 }
 
-func (t *TarsusRegister) GetRegisterMap() map[string]func(args ...any) any {
+func (t *TarsusRegister) GetRegisterMap() map[string]func(args []any) any {
 	println("map 长度", len(registerMap))
 	return registerMap
 }

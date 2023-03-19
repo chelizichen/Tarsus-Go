@@ -19,15 +19,15 @@ type Hello struct {
 
 type any = interface {}
 
-func (h *Hello) Notify(args ...any) any {
+func (h *Hello) Notify(args []any) any {
 	println("--Notify--")
-	println("name", args)
+	println("name", &args[0])
 	//println(h.name, h.message)
 	println("**********")
 	return ""
 }
 
-func (h *Hello) Say(args ...any) any {
+func (h *Hello) Say(args []any) any {
 	println("--Hello--")
 	println(h.name, h.message)
 	println("**********")

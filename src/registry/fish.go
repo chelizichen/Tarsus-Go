@@ -17,7 +17,7 @@ type Fish struct {
 	tarsus          pkg.TarsusRegister
 }
 
-func (h *Fish) Swim(args ...any) any {
+func (h *Fish) Swim(args []any) any {
 	println("--Swim--")
 	println("name", args)
 	//println(h.name, h.message)
@@ -25,7 +25,7 @@ func (h *Fish) Swim(args ...any) any {
 	return ""
 }
 
-func (h *Fish) Fly(args ...any) any {
+func (h *Fish) Fly(args []any) any {
 	println("--Fly--")
 	println(h.name, h.message)
 	println("**********")

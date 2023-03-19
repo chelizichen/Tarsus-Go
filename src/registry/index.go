@@ -7,6 +7,5 @@ func LoadRegister() {
 	f := new(Fish)
 	f.InitRegister()
 
-	map1 := h.tarsus.GetRegisterMap()
-	//h.tarsus.Call()
+	h.tarsus.Call("Notify",[]any{1,2})
 }
