@@ -19,25 +19,34 @@ type TarsusStructArgs struct {
 type TarsusStruct struct {
 	name	string
 	streamArgs TarsusStructArgs
+	// 组合接口
+	TarsusStreamInf
 }
+
+type TarsusStreamInf interface {
+	read_int(index int)int
+	read_string(index int)string
+	read_struct(index int,tarsusStruct string)
+}
+
 
 type TarsusStructMaps struct {
 	StructMaps map[string]TarsusStruct
 }
 
-type TarsusInf interface {
-	SetStruct(name string,TStruct TarsusStruct)
-	GetStruct(name string)
-}
+//type TarsusInf interface {
+//	SetStruct(name string,TStruct TarsusStruct)
+//	GetStruct(name string)
+//}
 
-var TarSusStructMAPS = make(map[string]TarsusStruct)
+var TarSusStructMAPS = make(map[string]any)
 
-func (t TarsusStructMaps) SetStruct(name string,TStruct TarsusStruct)  {
-	TarSusStructMAPS[name] = TStruct;
-}
-
-func (t TarsusStructMaps) GetStruct(name string)TarsusStruct  {
-	tarsusStruct := TarSusStructMAPS[name]
-	return tarsusStruct;
-}
+//func (t TarsusStructMaps) SetStruct(name string,TStruct TarsusStruct)  {
+//	TarSusStructMAPS[name] = TStruct;
+//}
+//
+//func (t TarsusStructMaps) GetStruct(name string)TarsusStruct  {
+//	tarsusStruct := TarSusStructMAPS[name]
+//	return tarsusStruct;
+//}
 
