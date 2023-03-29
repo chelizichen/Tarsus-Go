@@ -23,6 +23,7 @@ type TarsusStreamStruct struct {
 }
 
 func (receiver *TarsusStreamStruct) ReadInt(index int) int {
+	index = index - 1
 	s := receiver.osData[index]
 
 	if reflect.TypeOf(s).Kind() == reflect.Int {
@@ -39,6 +40,8 @@ func (receiver *TarsusStreamStruct) ReadInt(index int) int {
 }
 
 func (receiver *TarsusStreamStruct) ReadString(index int) string {
+	index = index - 1
+
 	s := receiver.osData[index]
 
 	if reflect.TypeOf(s).Kind() == reflect.Int {
@@ -54,6 +57,8 @@ func (receiver *TarsusStreamStruct) ReadString(index int) string {
 }
 
 func (receiver *TarsusStreamStruct) ReadStruct(index int, tarsusStruct string) any {
+	index = index - 1
+
 	data := receiver.osData[index]
 	if reflect.TypeOf(data).Kind() == reflect.Array {
 		f := StreamMap[tarsusStruct]
