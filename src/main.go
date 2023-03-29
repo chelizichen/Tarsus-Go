@@ -1,7 +1,11 @@
 package main
 
-import "tarsus/go/src/structs"
+import (
+	"fmt"
+	"tarsus/go/src/structs"
+)
 
 func main() {
-	structs.NewTestStruct([]any{"1", "2"})
+	ts := structs.NewTestStruct([]any{"1", "2"}).(structs.TestStruct)
+	fmt.Printf("ts: %v\n", ts)
 }

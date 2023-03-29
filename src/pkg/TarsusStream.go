@@ -25,13 +25,12 @@ type TarsusStreamStruct struct {
 func (receiver *TarsusStreamStruct) ReadInt(index int) int {
 	index = index - 1
 	s := receiver.osData[index]
-
 	if reflect.TypeOf(s).Kind() == reflect.Int {
 		return s.(int)
 	}
 	if reflect.TypeOf(s).Kind() == reflect.String {
 		atoi, err := strconv.Atoi(s.(string))
-		if err == nil {
+		if err != nil {
 			return 0
 		}
 		return atoi
