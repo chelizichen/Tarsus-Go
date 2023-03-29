@@ -3,11 +3,11 @@ package pkg
 // TarsusStructArg 字段
 type TarsusStructArg struct {
 	// 下标
-	streamIndex int;
+	streamIndex int
 	// 字段名
-	streamName string;
+	streamName string
 	// 字段类型
-	streamType string;
+	streamType string
 }
 
 // TarsusStructArgs 所有字段
@@ -17,18 +17,9 @@ type TarsusStructArgs struct {
 
 // TarsusStruct 结构体
 type TarsusStruct struct {
-	name	string
+	name       string
 	streamArgs TarsusStructArgs
-	// 组合接口
-	TarsusStreamInf
 }
-
-type TarsusStreamInf interface {
-	read_int(index int)int
-	read_string(index int)string
-	read_struct(index int,tarsusStruct string)
-}
-
 
 type TarsusStructMaps struct {
 	StructMaps map[string]TarsusStruct
@@ -49,4 +40,3 @@ var TarSusStructMAPS = make(map[string]any)
 //	tarsusStruct := TarSusStructMAPS[name]
 //	return tarsusStruct;
 //}
-
