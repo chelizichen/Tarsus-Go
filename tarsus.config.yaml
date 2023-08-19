@@ -1,0 +1,6 @@
+Server:
+  Project: '@TarsusDemoProject/GoServer -l go -t @tarsus/ms -h 127.0.0.1 -p 12014 -w 10'
+  Database:
+    URL: 127.0.0.1:3306/lmr_medical?useSSL=false&serverTimezone=UTC
+    Username: root
+    Password: 123456
