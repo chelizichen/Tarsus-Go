@@ -15,13 +15,18 @@ type TarsusStream struct {
 	TargetClass reflect.Type
 }
 
-var StreamMap = make(map[string]reflect.Type)
+type ClassBasic struct {
+	Clazz reflect.Type
+	Parse func(intermediate []interface{}) interface{}
+}
 
-func SetClass(clazzName string, clazz reflect.Type) {
+var StreamMap = make(map[string]ClassBasic)
+
+func SetClass(clazzName string, clazz ClassBasic) {
 	StreamMap[clazzName] = clazz
 }
 
-func GetClass(clazzName string) reflect.Type {
+func GetClass(clazzName string) ClassBasic {
 	return StreamMap[clazzName]
 }
 
@@ -29,7 +34,7 @@ func NewTarsusStream(arguments []interface{}, clazzName string) *TarsusStream {
 	return &TarsusStream{
 		Arguments:   arguments,
 		ClazzName:   clazzName,
-		TargetClass: GetClass(clazzName),
+		TargetClass: GetClass(clazzName).Clazz,
 	}
 }
 
@@ -43,16 +48,15 @@ func (t *TarsusStream) ReadInt(index int) int {
 }
 
 func (t *TarsusStream) ReadStruct(index int, className string) interface{} {
-	clazz := GetClass(className)
+	Clazz := GetClass(className)
 	listArgs, ok := t.Arguments[index-1].([]interface{})
 	if !ok {
 		return nil
 	}
 	// Here, you'd need to call the appropriate constructor for the type.
 	// This is a placeholder and will need to be adapted to your specific needs.
-	instance := reflect.New(clazz).Interface()
-	fmt.Println(instance, listArgs)
-	return instance
+	parse := Clazz.Parse(listArgs)
+	return parse
 }
 
 func (t *TarsusStream) ReadList(index int, className string) []interface{} {
@@ -82,7 +86,7 @@ func (t *TarsusStream) ReadList(index int, className string) []interface{} {
 			}
 			// Here, you'd need to call the appropriate constructor for the type.
 			// This is a placeholder and will need to be adapted to your specific needs.
-			instance := reflect.New(clazz).Interface()
+			instance := reflect.New(clazz.Clazz).Interface()
 			fmt.Println(instance, constructorArgs)
 		}
 	}
