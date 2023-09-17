@@ -56,6 +56,7 @@ func (t *TarsusStream) ReadStruct(index int, className string) interface{} {
 	// Here, you'd need to call the appropriate constructor for the type.
 	// This is a placeholder and will need to be adapted to your specific needs.
 	parse := Clazz.Deserialization(listArgs)
+	fmt.Println(parse)
 	return parse
 }
 

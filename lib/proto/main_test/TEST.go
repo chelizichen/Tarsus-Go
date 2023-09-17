@@ -38,9 +38,13 @@ func NewData(intermediate []interface{}) interface{} {
 	stream := proto.NewTarsusStream(intermediate, "Data")
 	inst.Code = stream.ReadString(1)
 	inst.Message = stream.ReadString(2)
-	inst.Data = stream.ReadStruct(3, "User").(User)
-	// inst.Users = stream.ReadList(4, "List<User>")
-	return new(interface{})
+	inst.Data = *stream.ReadStruct(3, "User").(*User)
+	usersInterface := stream.ReadList(4, "List<User>")
+	inst.Users = make([]User, len(usersInterface))
+	for i, userInterface := range usersInterface {
+		inst.Users[i] = *userInterface.(*User)
+	}
+	return inst
 }
 
 func main() {
@@ -63,5 +67,6 @@ func main() {
 		Deserialization: NewData,
 	})
 
-	NewData(intermediate)
+	data := NewData(intermediate).(*Data)
+	fmt.Println(data)
 }
