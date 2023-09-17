@@ -16,8 +16,8 @@ type TarsusStream struct {
 }
 
 type ClassBasic struct {
-	Clazz reflect.Type
-	Parse func(intermediate []interface{}) interface{}
+	Clazz           reflect.Type
+	Deserialization func(intermediate []interface{}) interface{}
 }
 
 var StreamMap = make(map[string]ClassBasic)
@@ -55,7 +55,7 @@ func (t *TarsusStream) ReadStruct(index int, className string) interface{} {
 	}
 	// Here, you'd need to call the appropriate constructor for the type.
 	// This is a placeholder and will need to be adapted to your specific needs.
-	parse := Clazz.Parse(listArgs)
+	parse := Clazz.Deserialization(listArgs)
 	return parse
 }
 
@@ -86,8 +86,8 @@ func (t *TarsusStream) ReadList(index int, className string) []interface{} {
 			}
 			// Here, you'd need to call the appropriate constructor for the type.
 			// This is a placeholder and will need to be adapted to your specific needs.
-			instance := reflect.New(clazz.Clazz).Interface()
-			fmt.Println(instance, constructorArgs)
+			deserialization := clazz.Deserialization(constructorArgs)
+			args = append(args, deserialization)
 		}
 	}
 	return args

@@ -24,20 +24,20 @@ type Data struct {
 
 func NewUser(intermediate []interface{}) interface{} {
 	stream := proto.NewTarsusStream(intermediate, "User")
-	fmt.Println(" 1 - %s", stream.ReadString(1))
-	fmt.Println(" 2 - %s", stream.ReadString(2))
-	fmt.Println(" 3 - %s", stream.ReadString(3))
-	fmt.Println(" 4 - %s", stream.ReadString(4))
-	fmt.Println(" 5 - %s", stream.ReadString(5))
+	fmt.Println(" 1 - ", stream.ReadString(1))
+	fmt.Println(" 2 - ", stream.ReadString(2))
+	fmt.Println(" 3 - ", stream.ReadString(3))
+	fmt.Println(" 4 - ", stream.ReadString(4))
+	fmt.Println(" 5 - ", stream.ReadString(5))
 	return new(interface{})
 }
 
 func NewData(intermediate []interface{}) interface{} {
 	stream := proto.NewTarsusStream(intermediate, "Data")
-	fmt.Println(" 1 - %s", stream.ReadString(1))
-	fmt.Println(" 2 - %s", stream.ReadString(2))
-	fmt.Println(" 3 - %s", stream.ReadStruct(3, "User"))
-	fmt.Println(" 4 - %s", stream.ReadList(4, "List<User>"))
+	fmt.Println(" 1 - ", stream.ReadString(1))
+	fmt.Println(" 2 - ", stream.ReadString(2))
+	fmt.Println(" 3 - ", stream.ReadStruct(3, "User"))
+	fmt.Println(" 4 - ", stream.ReadList(4, "List<User>"))
 	return new(interface{})
 }
 
@@ -53,12 +53,12 @@ func main() {
 	// Example usage
 
 	proto.SetClass("User", proto.ClassBasic{
-		Clazz: reflect.TypeOf(User{}),
-		Parse: NewUser,
+		Clazz:           reflect.TypeOf(User{}),
+		Deserialization: NewUser,
 	})
 	proto.SetClass("Data", proto.ClassBasic{
-		Clazz: reflect.TypeOf(Data{}),
-		Parse: NewData,
+		Clazz:           reflect.TypeOf(Data{}),
+		Deserialization: NewData,
 	})
 
 	NewData(intermediate)
