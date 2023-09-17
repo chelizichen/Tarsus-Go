@@ -39,11 +39,7 @@ func NewData(intermediate []interface{}) interface{} {
 	inst.Code = stream.ReadString(1)
 	inst.Message = stream.ReadString(2)
 	inst.Data = *stream.ReadStruct(3, "User").(*User)
-	usersInterface := stream.ReadList(4, "List<User>")
-	inst.Users = make([]User, len(usersInterface))
-	for i, userInterface := range usersInterface {
-		inst.Users[i] = *userInterface.(*User)
-	}
+	inst.Users = stream.ReadList(4, "List<User>").([]User)
 	return inst
 }
 
@@ -59,14 +55,14 @@ func main() {
 	// Example usage
 
 	proto.SetClass("User", proto.ClassBasic{
-		Clazz:           reflect.TypeOf(User{}),
+		Clazz:           reflect.TypeOf(&User{}),
 		Deserialization: NewUser,
 	})
 	proto.SetClass("Data", proto.ClassBasic{
-		Clazz:           reflect.TypeOf(Data{}),
+		Clazz:           reflect.TypeOf(&Data{}),
 		Deserialization: NewData,
 	})
 
 	data := NewData(intermediate).(*Data)
-	fmt.Println(data)
+	fmt.Println(data.Users)
 }

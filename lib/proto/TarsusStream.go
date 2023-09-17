@@ -56,19 +56,18 @@ func (t *TarsusStream) ReadStruct(index int, className string) interface{} {
 	// Here, you'd need to call the appropriate constructor for the type.
 	// This is a placeholder and will need to be adapted to your specific needs.
 	parse := Clazz.Deserialization(listArgs)
-	fmt.Println(parse)
 	return parse
 }
 
-func (t *TarsusStream) ReadList(index int, className string) []interface{} {
+func (t *TarsusStream) ReadList(index int, className string) interface{} {
 	getType := GetType(className)
-	args := make([]interface{}, 0)
 	listArgs, ok := t.Arguments[index-1].([]interface{})
 	if !ok {
-		return args
+		return nil
 	}
 
 	if isBaseType(getType) {
+		args := make([]interface{}, 0)
 		for _, arg := range listArgs {
 			switch getType {
 			case "int":
@@ -78,20 +77,21 @@ func (t *TarsusStream) ReadList(index int, className string) []interface{} {
 				args = append(args, fmt.Sprintf("%v", arg))
 			}
 		}
+		return args
 	} else {
 		clazz := GetClass(getType)
-		for _, arg := range listArgs {
+		sliceType := reflect.SliceOf(clazz.Clazz.Elem()) // 注意这里的修改
+		sliceValue := reflect.MakeSlice(sliceType, len(listArgs), len(listArgs))
+		for i, arg := range listArgs {
 			constructorArgs, ok := arg.([]interface{})
 			if !ok {
 				continue
 			}
-			// Here, you'd need to call the appropriate constructor for the type.
-			// This is a placeholder and will need to be adapted to your specific needs.
 			deserialization := clazz.Deserialization(constructorArgs)
-			args = append(args, deserialization)
+			sliceValue.Index(i).Set(reflect.ValueOf(deserialization).Elem())
 		}
+		return sliceValue.Interface()
 	}
-	return args
 }
 
 func GetType(typeStr string) string {
@@ -111,5 +111,3 @@ func isBaseType(typeStr string) bool {
 	}
 	return false
 }
-
-var ConstructorMaps = map[string]func(data []any) interface{}{}
