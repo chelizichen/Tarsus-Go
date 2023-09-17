@@ -23,21 +23,23 @@ type Data struct {
 }
 
 func NewUser(intermediate []interface{}) interface{} {
+	inst := new(User)
 	stream := proto.NewTarsusStream(intermediate, "User")
-	fmt.Println(" 1 - ", stream.ReadString(1))
-	fmt.Println(" 2 - ", stream.ReadString(2))
-	fmt.Println(" 3 - ", stream.ReadString(3))
-	fmt.Println(" 4 - ", stream.ReadString(4))
-	fmt.Println(" 5 - ", stream.ReadString(5))
-	return new(interface{})
+	inst.Id = stream.ReadString(1)
+	inst.Name = stream.ReadString(2)
+	inst.Age = stream.ReadString(3)
+	inst.FullName = stream.ReadString(4)
+	inst.Address = stream.ReadString(5)
+	return inst
 }
 
 func NewData(intermediate []interface{}) interface{} {
+	inst := new(Data)
 	stream := proto.NewTarsusStream(intermediate, "Data")
-	fmt.Println(" 1 - ", stream.ReadString(1))
-	fmt.Println(" 2 - ", stream.ReadString(2))
-	fmt.Println(" 3 - ", stream.ReadStruct(3, "User"))
-	fmt.Println(" 4 - ", stream.ReadList(4, "List<User>"))
+	inst.Code = stream.ReadString(1)
+	inst.Message = stream.ReadString(2)
+	inst.Data = stream.ReadStruct(3, "User").(User)
+	// inst.Users = stream.ReadList(4, "List<User>")
 	return new(interface{})
 }
 
